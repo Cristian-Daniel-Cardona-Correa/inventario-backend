@@ -9,10 +9,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -68,5 +78,36 @@ public class ProductoController {
             @Parameter(description = "ID del producto") @PathVariable Long id) {
         productoService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/upload-imagen", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Subir imagen de producto", description = "Sube un archivo de imagen y retorna su ruta accesible")
+    @ApiResponse(responseCode = "200", description = "Imagen subida exitosamente")
+    @ApiResponse(responseCode = "422", description = "Archivo inválido o vacío")
+    public ResponseEntity<Map<String, String>> subirImagen(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("El archivo de imagen no puede estar vacío");
+        }
+        try {
+            File uploadDir = new File("uploads");
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+            String originalFilename = file.getOriginalFilename();
+            String extension = ".jpg";
+            if (originalFilename != null && originalFilename.contains(".")) {
+                extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            }
+            String fileName = UUID.randomUUID() + extension;
+            Path targetPath = uploadDir.toPath().resolve(fileName);
+            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("url", "/uploads/" + fileName);
+            response.put("fileName", fileName);
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            throw new RuntimeException("Error al almacenar la imagen en el servidor: " + e.getMessage(), e);
+        }
     }
 }

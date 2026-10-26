@@ -12,6 +12,7 @@ public class ProductoResponse {
     private BigDecimal precio;
     private Integer cantidad;
     private String categoria;
+    private String imagenUrl;
 
     public ProductoResponse() {}
 
@@ -23,6 +24,7 @@ public class ProductoResponse {
         this.precio = p.getPrecio();
         this.cantidad = p.getCantidad();
         this.categoria = p.getCategoria();
+        this.imagenUrl = p.getImagenUrl();
     }
 
     public Long getId() { return id; }
@@ -32,4 +34,5 @@ public class ProductoResponse {
     public BigDecimal getPrecio() { return precio; }
     public Integer getCantidad() { return cantidad; }
     public String getCategoria() { return categoria; }
+    public String getImagenUrl() { return imagenUrl; }
 }

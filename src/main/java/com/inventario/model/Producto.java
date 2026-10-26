@@ -37,6 +37,9 @@ public class Producto {
     @Column(nullable = false)
     private String categoria;
 
+    @Column(name = "imagen_url", columnDefinition = "TEXT")
+    private String imagenUrl;
+
     public Producto() {}
 
     public Long getId() { return id; }
@@ -59,4 +62,7 @@ public class Producto {
 
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
+
+    public String getImagenUrl() { return imagenUrl; }
+    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
 }

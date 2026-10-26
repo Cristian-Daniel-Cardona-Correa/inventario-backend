@@ -62,6 +62,7 @@ public class ProductoService {
         producto.setPrecio(request.getPrecio());
         producto.setCantidad(request.getCantidad());
         producto.setCategoria(request.getCategoria());
+        producto.setImagenUrl(request.getImagenUrl());
 
         return new ProductoResponse(productoRepository.save(producto));
     }
@@ -82,6 +83,7 @@ public class ProductoService {
         p.setPrecio(request.getPrecio());
         p.setCantidad(request.getCantidad());
         p.setCategoria(request.getCategoria());
+        p.setImagenUrl(request.getImagenUrl());
         return p;
     }
 }

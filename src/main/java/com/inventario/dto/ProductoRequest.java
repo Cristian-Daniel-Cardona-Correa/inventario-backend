@@ -24,6 +24,8 @@ public class ProductoRequest {
     @NotBlank(message = "La categoría es obligatoria")
     private String categoria;
 
+    private String imagenUrl;
+
     public ProductoRequest() {}
 
     public String getNombre() { return nombre; }
@@ -43,4 +45,7 @@ public class ProductoRequest {
 
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
+
+    public String getImagenUrl() { return imagenUrl; }
+    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
 }
