@@ -1,6 +1,14 @@
--- Script de datos de prueba para el inventario
--- Ejecutar después de que Hibernate cree las tablas:
--- psql -h localhost -U inventario_user -d inventario_db -f src/main/resources/data.sql
+-- Script de creación y datos de prueba para el inventario
+
+CREATE TABLE IF NOT EXISTS productos (
+    id BIGSERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    codigo VARCHAR(255) NOT NULL UNIQUE,
+    descripcion TEXT,
+    precio NUMERIC(12, 2) NOT NULL,
+    cantidad INTEGER NOT NULL,
+    categoria VARCHAR(255) NOT NULL
+);
 
 INSERT INTO productos (nombre, codigo, descripcion, precio, cantidad, categoria) VALUES
 ('Laptop Dell Inspiron 15', 'LAP-001', 'Laptop con procesador Intel Core i5, 8GB RAM, 512GB SSD', 2499000.00, 15, 'Computadores'),
@@ -12,4 +20,5 @@ INSERT INTO productos (nombre, codigo, descripcion, precio, cantidad, categoria)
 ('Disco Duro Externo Seagate 1TB', 'DIS-001', 'Disco duro portatil USB 3.0 capacidad 1 Terabyte', 199000.00, 50, 'Almacenamiento'),
 ('Hub USB-C 7 en 1', 'HUB-001', 'Adaptador multipuerto USB-C con HDMI 4K, USB 3.0 y lector SD', 89000.00, 35, 'Accesorios'),
 ('Silla Ergonomica Gamer Pro', 'SIL-001', 'Silla de oficina con soporte lumbar, reposabrazos 4D y reclinacion 160', 789000.00, 10, 'Mobiliario'),
-('Impresora HP LaserJet Pro M15w', 'IMP-001', 'Impresora laser monocromatica con WiFi, duplex automatico y pantalla LCD', 549000.00, 12, 'Impresoras');
+('Impresora HP LaserJet Pro M15w', 'IMP-001', 'Impresora laser monocromatica con WiFi, duplex automatico y pantalla LCD', 549000.00, 12, 'Impresoras')
+ON CONFLICT (codigo) DO NOTHING;
