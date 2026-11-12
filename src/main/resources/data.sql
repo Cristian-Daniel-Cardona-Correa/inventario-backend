@@ -1,5 +1,14 @@
 -- Script de creación y datos de prueba para el inventario con URLs de imágenes
 
+CREATE TABLE IF NOT EXISTS usuarios (
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    rol VARCHAR(50) NOT NULL DEFAULT 'ROLE_USER'
+);
+
 CREATE TABLE IF NOT EXISTS productos (
     id BIGSERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
